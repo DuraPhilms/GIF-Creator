@@ -1,0 +1,23 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30516.212
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Duraphilms-GIF-Creator", "Duraphilms-GIF-Creator.pyproj", "{4C2FEEF2-1F87-4BF1-9F5D-B568833F78E2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4C2FEEF2-1F87-4BF1-9F5D-B568833F78E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4C2FEEF2-1F87-4BF1-9F5D-B568833F78E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {45C991FE-C3B9-478E-A121-2F190B8A7287}
+	EndGlobalSection
+EndGlobal
