@@ -48,7 +48,7 @@ parser.add_argument('output', type = str, help = "The output file path.")
 args = parser.parse_args();
 video_uri = f"https://unknown6656.com/harrypotter/videos/{str(args.baseid).lower()}/{args.part:02}.mp4"
 subtitle_uri = f"https://unknown6656.com/harrypotter/subtitles/{str(args.baseid).lower()}/{args.part:02}.srt"
-random_id = str(uuid.uuid4())
+random_id = '.' + str(uuid.uuid4())
 
 with urllib.request.urlopen(subtitle_uri) as fs:
     with open(random_id + '.srt', 'wb') as file:
