@@ -5,13 +5,16 @@
     <ProjectGuid>4c2feef2-1f87-4bf1-9f5d-b568833f78e2</ProjectGuid>
     <ProjectHome>
     </ProjectHome>
-    <StartupFile>Duraphilms_GIF_Creator.py</StartupFile>
+    <StartupFile>gif-creator.py</StartupFile>
     <SearchPath>
     </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
     <Name>GIF-Creator</Name>
     <RootNamespace>Duraphilms-GIF-Creator</RootNamespace>
+    <LaunchProvider>Standard Python launcher</LaunchProvider>
+    <CommandLineArguments> -p 02 -s 555 -d 20 -f 15 -r 480 hpudodp test/test.gif</CommandLineArguments>
+    <EnableNativeCodeDebugging>False</EnableNativeCodeDebugging>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <DebugSymbols>true</DebugSymbols>
@@ -22,7 +25,7 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Duraphilms_GIF_Creator.py" />
+    <Compile Include="gif-creator.py" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets" />
   <!-- Uncomment the CoreCompile target to enable the Build command in

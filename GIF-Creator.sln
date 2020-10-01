@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30516.212
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "Duraphilms-GIF-Creator", "Duraphilms-GIF-Creator.pyproj", "{4C2FEEF2-1F87-4BF1-9F5D-B568833F78E2}"
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "GIF-Creator", "GIF-Creator.pyproj", "{4C2FEEF2-1F87-4BF1-9F5D-B568833F78E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

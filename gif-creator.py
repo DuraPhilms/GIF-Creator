@@ -1,5 +1,10 @@
+#!/usr/bin/env python3
+
+import urllib.request
+import subprocess
 import argparse
 import enum
+import uuid
 import sys
 import os
 
@@ -19,25 +24,53 @@ class BaseID(enum.IntEnum):
     @staticmethod
     def argparse(s):
         try:
-            return SomeEnum[s.upper()]
+            return BaseID[s.upper()]
         except KeyError:
             return s
 
-        
+
+
 # 
 # gif-creator.py <base-id> [part-number] <start time> <duration> <size>
 #
-#
 
 parser = argparse.ArgumentParser(description = 'A GIF creator tool for the DURAPHILMS/COLDMIRROR parodies.')
-parser.add_argument('baseid', type = BaseID.argparse, choices = list(BaseID))
-parser.
+parser.add_argument('baseid', type = BaseID.argparse, choices = list(BaseID), help = 'The parody identifier.')
+parser.add_argument('-p', '--part', type = int, default = 1, help = 'The number of the part.')
+parser.add_argument('-s', '--start', type = int, required = True, help = 'The start time in seconds.')
+parser.add_argument('-d', '--duration', type = int, default = 3, help = 'The duration in seconds.')
+parser.add_argument('-f', '--fps', type = int, default = 15, help = 'The desired FPS rate.')
+parser.add_argument('-r', '--resolution', type = int, default = 480, help = "The output GIF's horizontal resolution (in pixels).")
+# parser.add_argument('-s', '--subtitles', type = bool, default = False, help = '')
+parser.add_argument('output', type = str, help = "The output file path.")
 
 
-#
-# TODO : fetch video -> cache ?
-# TODO : fetch vtt / srt
-# TODO : convert frames -> temporary dir
-# TODO : merge into GIF
-# TODO : delete temporary frames
-#
+args = parser.parse_args();
+video_uri = f"https://unknown6656.com/harrypotter/videos/{str(args.baseid).lower()}/{args.part:02}.mp4"
+subtitle_uri = f"https://unknown6656.com/harrypotter/subtitles/{str(args.baseid).lower()}/{args.part:02}.srt"
+random_id = str(uuid.uuid4())
+
+with urllib.request.urlopen(subtitle_uri) as fs:
+    with open(random_id + '.srt', 'wb') as file:
+        bytes = fs.read()
+        file.write(bytes)
+
+try:
+    # f"ffmpeg -y -i {video_uri} -i {subtitle_uri} -ss {args.start} -t {args.duration} -pix_fmt rgb24 -r 10 -s 320x240 output-temp.gif"
+    if os.system(f"ffmpeg -y -i {video_uri} -ss {args.start} -t {args.duration} -vf fps={args.fps},scale={args.resolution}:-1:flags=lanczos,subtitles={random_id}.srt:force_style='Fontsize=24' {random_id}.gif") == 0:    
+        converted = False
+
+        try:
+            if os.system(f'optimize -layers Optimize {random_id}.gif "{args.output}"') == 0:
+                converted = True
+        except:
+            pass
+
+        if not converted:
+            os.rename(random_id + '.gif', args.output)
+except:
+    pass
+
+for file in [random_id + '.srt', random_id + '.gif']:
+    if os.path.exists(file):
+        os.remove(file)
