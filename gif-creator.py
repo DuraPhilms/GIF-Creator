@@ -30,11 +30,6 @@ class BaseID(enum.IntEnum):
             return s
 
 
-
-#
-# gif-creator.py <base-id> [part-number] <start time> <duration> <size>
-#
-
 parser = argparse.ArgumentParser(description = 'A GIF creator tool for the DURAPHILMS/COLDMIRROR parodies.')
 parser.add_argument('baseid', type = BaseID.argparse, choices = list(BaseID), help = 'The parody identifier.')
 parser.add_argument('-p', '--part', type = int, default = 1, help = 'The number of the part. The default is 1.')
@@ -45,7 +40,7 @@ parser.add_argument('-r', '--resolution', type = int, default = 480, help = "The
 # parser.add_argument('-s', '--subtitles', type = bool, default = False, help = '')
 parser.add_argument('output', type = str, help = "The output file path.")
 
-args = parser.parse_args();
+args = parser.parse_args()
 
 
 if (re.match(r'^hp\w+$', str(args.baseid)) is None or
