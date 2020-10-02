@@ -55,14 +55,20 @@ else:
     subtitle_uri = f"https://unknown6656.com/harrypotter/subtitles/{str(args.baseid).lower()}/{args.part:02}.srt"
     random_id = '.' + str(uuid.uuid4())
 
-    with urllib.request.urlopen(subtitle_uri) as fs:
-        with open(random_id + '.srt', 'wb') as file:
-            bytes = fs.read()
-            file.write(bytes)
+    try:
+        with urllib.request.urlopen(subtitle_uri) as fs:
+            with open(random_id + '.srt', 'wb') as file:
+                bytes = fs.read()
+                file.write(bytes)
+    except:
+        pass
 
     try:
         # f"ffmpeg -y -i {video_uri} -i {subtitle_uri} -ss {args.start} -t {args.duration} -pix_fmt rgb24 -r 10 -s 320x240 output-temp.gif"
-        if os.system(f"ffmpeg -y -i {video_uri} -ss {args.start} -t {args.duration} -vf fps={args.fps},scale={args.resolution}:-1:flags=lanczos,subtitles={random_id}.srt:force_style='Fontsize=24' {random_id}.gif") == 0:
+        subtitlestr = f",subtitles={random_id}.srt:force_style='Fontsize=24'" if os.path.exists(file) else ""
+
+
+        if os.system(f"ffmpeg -y -i {video_uri} -ss {args.start} -t {args.duration} -vf fps={args.fps},scale={args.resolution}:-1:flags=lanczos{subtitles} {random_id}.gif") == 0:
             converted = False
 
             try:
@@ -79,22 +85,3 @@ else:
     for file in [random_id + '.srt', random_id + '.gif']:
         if os.path.exists(file):
             os.remove(file)
-try:
-    # f"ffmpeg -y -i {video_uri} -i {subtitle_uri} -ss {args.start} -t {args.duration} -pix_fmt rgb24 -r 10 -s 320x240 output-temp.gif"
-    if os.system(f"ffmpeg -y -i {video_uri} -ss {args.start} -t {args.duration} -vf fps={args.fps},scale={args.resolution}:-1:flags=lanczos,subtitles={random_id}.srt:force_style='Fontsize=24' {random_id}.gif") == 0:
-        converted = False
-
-        try:
-            if os.system(f'optimize -layers Optimize {random_id}.gif "{args.output}"') == 0:
-                converted = True
-        except:
-            pass
-
-        if not converted:
-            os.rename(random_id + '.gif', args.output)
-except:
-    pass
-
-for file in [random_id + '.srt', random_id + '.gif']:
-    if os.path.exists(file):
-        os.remove(file)
