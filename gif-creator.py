@@ -8,6 +8,7 @@ import uuid
 import sys
 import os
 import re
+import pprint
 
 
 class BaseID(enum.IntEnum):
@@ -41,6 +42,7 @@ parser.add_argument('-r', '--resolution', type = int, default = 480, help = "The
 parser.add_argument('output', type = str, help = "The output file path.")
 
 args = parser.parse_args()
+pprint.pprint(args)
 
 
 if (re.match(r'^hp\w+$', str(args.baseid)) is None or
@@ -55,6 +57,10 @@ else:
     subtitle_uri = f"https://unknown6656.com/harrypotter/subtitles/{str(args.baseid).lower()}/{args.part:02}.srt"
     random_id = '.' + str(uuid.uuid4())
 
+    print(video_uri)
+    print(subtitle_uri)
+    print(random_id)
+
     try:
         with urllib.request.urlopen(subtitle_uri) as fs:
             with open(random_id + '.srt', 'wb') as file:
@@ -65,10 +71,13 @@ else:
 
     try:
         # f"ffmpeg -y -i {video_uri} -i {subtitle_uri} -ss {args.start} -t {args.duration} -pix_fmt rgb24 -r 10 -s 320x240 output-temp.gif"
-        subtitlestr = f",subtitles={random_id}.srt:force_style='Fontsize=24'" if os.path.exists(file) else ""
+        subtitlefile = random_id + '.srt'
+        subtitlestr = f",subtitles={subtitlefile}:force_style='Fontsize=24'" if os.path.exists(subtitlefile) else ""
+        command = f"ffmpeg -y -i {video_uri} -ss {args.start} -t {args.duration} -vf fps={args.fps},scale={args.resolution}:-1:flags=lanczos{subtitlestr} {random_id}.gif"
 
+        print(command)
 
-        if os.system(f"ffmpeg -y -i {video_uri} -ss {args.start} -t {args.duration} -vf fps={args.fps},scale={args.resolution}:-1:flags=lanczos{subtitles} {random_id}.gif") == 0:
+        if os.system(command) == 0:
             converted = False
 
             try:
